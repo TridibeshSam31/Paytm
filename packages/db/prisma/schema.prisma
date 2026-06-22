@@ -60,7 +60,11 @@ enum OnRampStatus {
   Processing
 }
 
-model Acoount {
+//account , verificationToken and sessions are used by next-auth for authentication and authorization of users 
+
+
+
+model Account {
   id      String @id @default(uuid())
   userId  Int 
   type    String
@@ -69,15 +73,45 @@ model Acoount {
   refresh_token  String?
   access_token String?
   expires_at Int?
+  token_type String?
+  scope String?
+  id_token String?
+  session_state String?
 
-  
+  user User @relation(fields:[userId], references:[id] , onDelete: Cascade)
 
+  @@unique([provider, providerAccountId])
 }
 
 model Session{
+  id String @id @default(uuid())
+  sessionToken String @unique
+  userId  Int 
+  expires DateTime
+  user User @relation(fields:[userId], references:[id] , onDelete: Cascade)
 
 }
 
 model VerificationToken {
-  
+
+  identifier String
+  token String @unique
+  expires DateTime
+
+  @@unique([identifier, token])
 }
+
+
+model OtpVerification {
+  id Int @id @default(autoincrement())
+  phone String @unique
+  otp String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+
+  @@index([phone])
+
+}
+
+
