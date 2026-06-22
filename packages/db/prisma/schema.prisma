@@ -11,11 +11,17 @@ model User {
   id                Int                 @id @default(autoincrement())
   email             String?             @unique
   name              String?
-  number            String              @unique
-  password          String
+  number            String?              @unique
+  password          String? 
+  emailVerified     DateTime?
+  image             String?            
   OnRampTransaction OnRampTransaction[]
   Balance           Balance[]
+  accounts          Account[]
+  sessions          Session[]
+  
 }
+
 
 model Merchant {
   id        Int      @id @default(autoincrement())
@@ -52,4 +58,26 @@ enum OnRampStatus {
   Success
   Failure
   Processing
+}
+
+model Acoount {
+  id      String @id @default(uuid())
+  userId  Int 
+  type    String
+  provider String
+  providerAccountId String
+  refresh_token  String?
+  access_token String?
+  expires_at Int?
+
+  
+
+}
+
+model Session{
+
+}
+
+model VerificationToken {
+  
 }
