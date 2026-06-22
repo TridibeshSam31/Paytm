@@ -62,12 +62,13 @@ export async function POST(request: NextRequest) {
   process.env.TWILIO_AUTH_TOKEN!
   ); 
 
+const formattedPhone = `+91${phoneNumber}`;
 
-  await twilioClient.messages.create({
-      body: `Your PayFlow OTP is: ${otp}. Valid for 10 minutes. Do not share this with anyone.`,
-      from: process.env.TWILIO_PHONE_NUMBER!,
-      to: phoneNumber,
-    });
+await twilioClient.messages.create({
+  body: `Your PayFlow OTP is: ${otp}. Valid for 10 minutes.`,
+  from: process.env.TWILIO_PHONE_NUMBER!,
+  to: formattedPhone,
+});
 
   return NextResponse.json(
       { message: "OTP sent successfully" },
