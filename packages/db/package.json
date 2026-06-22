@@ -2,15 +2,20 @@
     "name": "@repo/db",
     "version": "0.0.0",
     "dependencies": {
-        "@prisma/client": "^5.11.0"
+        "@prisma/client": "^5.11.0",
+        "bcrypt": "^5.1.1"
     },
     "devDependencies": {
-        "prisma": "5.11.0"
+        "prisma": "5.11.0",
+        "ts-node": "^10.9.2",
+        "@types/bcrypt": "^5.0.2",
+        "@types/node": "^20.11.24",
+        "typescript": "^5.3.3"
     },
     "exports": {
         "./client": "./index.ts"
     },
     "prisma": {
-        "seed": "ts-node prisma/seed.ts"
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
     }
 }
