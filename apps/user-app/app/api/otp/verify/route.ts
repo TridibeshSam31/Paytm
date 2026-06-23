@@ -93,7 +93,14 @@ export async function POST(request: NextRequest){
             user = await PrismaClient.user.create({
                 data:{
                     number : phoneNumber,
+                }
+            })
 
+            await PrismaClient.balance.create({
+                data: {
+                    userId: user.id,
+                    amount: 0,
+                    locked: 0
                 }
             })
         }
