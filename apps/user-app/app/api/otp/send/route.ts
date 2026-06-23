@@ -48,7 +48,10 @@ export async function POST(request: NextRequest) {
   })
 
   //create new otp entry
-  await PrismaClient.otpVerification.create({
+
+  console.log("SEND API HIT");
+
+  const createdOtp = await PrismaClient.otpVerification.create({
     data: {
       phone: phoneNumber,
       otp: hashedOtp,
@@ -56,6 +59,12 @@ export async function POST(request: NextRequest) {
     }
   })
 
+  console.log("CREATED OTP:", createdOtp);
+
+
+
+
+  console.log("ABOUT TO SEND TWILIO");
   //send the otp via sms using twillo/msg91  or SMTP
   const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID!,

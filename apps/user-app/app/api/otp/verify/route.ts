@@ -42,8 +42,23 @@ export async function POST(request: NextRequest){
                 expiresAt: {
                     gt: new Date()
                 }
+            },
+            orderBy:{
+                createdAt: "desc"
             }
         })
+
+        console.log("Found OTP Record:", otpRecord)
+
+        const allRecords = await PrismaClient.otpVerification.findMany({
+          where: {
+            phone: phoneNumber
+          }
+        })
+
+         console.log("All Records:", allRecords)
+ 
+        console.log("otpRecord", otpRecord)
 
         if(!otpRecord){
             return NextResponse.json({error: "OTP not found or expired"}, {status: 400})
@@ -54,6 +69,8 @@ export async function POST(request: NextRequest){
         if(!isMatch){
             return NextResponse.json({error: "Invalid OTP"}, {status: 400})
         }
+
+        console.log("OTP verified successfully for phone:", phoneNumber)
 
         // Mark the OTP as used
         await PrismaClient.otpVerification.update({
@@ -75,7 +92,8 @@ export async function POST(request: NextRequest){
         if(!user){
             user = await PrismaClient.user.create({
                 data:{
-                    phone: phoneNumber
+                    number : phoneNumber,
+
                 }
             })
         }
