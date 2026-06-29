@@ -1,3 +1,5 @@
+"use server"
+
 /*
 
 
@@ -23,3 +25,20 @@ transaction record and later return a token that bank will use to confirm the tr
 
 
 */
+
+import {PrismaClient} from "@repo/db"
+import {getSession} from "@repo/auth"
+
+
+export async function onRampTransaction(amount:Number,provider:string){
+    const session = await getSession();
+    const user = session.user
+
+    if(!user){
+        throw new Error("User not authenticated")
+    }
+
+    
+
+
+}
